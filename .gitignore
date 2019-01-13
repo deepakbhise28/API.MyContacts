@@ -1,0 +1,12 @@
+
+.vs/
+*.user
+.vs/API.MyContacts/v15/*
+API.DAL/bin
+API.DAL/obj
+API.Entities/bin
+API.Entities/obj
+API.Instrumentation/bin
+API.Instrumentation/obj
+/API.MyContacts/obj/Debug
+/API.MyContacts/bin

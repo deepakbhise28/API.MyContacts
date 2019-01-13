@@ -181,7 +181,7 @@
       <Project>{eddcd53f-f357-4ff4-b2c7-74fec2ca2348}</Project>
       <Name>API.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\API.Entity\API.Entities.csproj">
+    <ProjectReference Include="..\API.Entities\API.Entities.csproj">
       <Project>{160772e8-4bc5-4c9f-bccb-2eccf5d6e9e7}</Project>
       <Name>API.Entities</Name>
     </ProjectReference>
