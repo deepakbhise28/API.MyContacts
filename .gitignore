@@ -10,3 +10,5 @@ API.Instrumentation/bin
 API.Instrumentation/obj
 /API.MyContacts/obj/Debug
 /API.MyContacts/bin
+/API.UnitTest/bin/Debug
+/API.UnitTest/obj/Debug

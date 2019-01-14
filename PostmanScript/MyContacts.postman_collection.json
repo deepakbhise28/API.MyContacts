@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "4a3848e9-cbff-4ebf-8ec0-7afc7ea1e065",
+		"name": "MyContacts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "deepz2.bhise@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Test@12345",
+							"type": "text"
+						},
+						{
+							"key": "confirmPassword",
+							"value": "Test@12345",
+							"type": "text"
+						},
+						{
+							"key": "hometown",
+							"value": "Amboli",
+							"type": "text"
+						},
+						{
+							"key": "userName",
+							"value": "testUser1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}/account",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c734188-aa4b-4975-9c6b-df3b1a18a140",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"AUTH\", \"Bearer \" + jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "UserName",
+							"value": "TestUser1",
+							"type": "text"
+						},
+						{
+							"key": "Password",
+							"value": "Test@12345",
+							"type": "text"
+						},
+						{
+							"key": "Client_Id",
+							"value": "099153c2625149bc8ecb3e85e03f0022",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{TOKENURL}}",
+					"host": [
+						"{{TOKENURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Contacts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "474c5a11-c550-4bab-ba4c-a476295d41b2",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"postman.setEnvironmentVariable(\"ContactID\", \"Bearer \" + jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"FirstName\": \"Deepak\",\n        \"LastName\": \"Bhise\",\n        \"Email\": \"deepz.bhise@gmail.com\",\n        \"PhoneNumber\": 9904356891,\n        \"Status\": false\n    }"
+				},
+				"url": {
+					"raw": "{{URL}}/Contacts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Contacts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7fa6a2f6-6f77-4f15-823e-ab9a07ae52f5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{AUTH}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/Contacts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Contact ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/Contacts/{{ContactID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Contacts",
+						"{{ContactID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "474c5a11-c550-4bab-ba4c-a476295d41b2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"firstName\": \"Deepak\",\n        \"lastName\": \"Bhise\",\n        \"email\": \"deepz.bhise@gmail.com\",\n        \"phoneNumber\": \"9904356991\",\n        \"status\": false\n    }"
+				},
+				"url": {
+					"raw": "{{URL}}/Contacts/{{ContactID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Contacts",
+						"{{ContactID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "34ebb70c-0646-4ffb-9760-3d7f848d9ba3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/Contacts/{{ContactID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Contacts",
+						"{{ContactID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

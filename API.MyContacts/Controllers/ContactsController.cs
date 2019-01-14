@@ -14,10 +14,10 @@ namespace API.MyContacts.Controllers
     public class ContactsController : ApiController
     {
         private IRepository<Contact, Guid> _repository;
-        public ContactsController()
-        {
-            _repository = new ContactRepository();
-        }
+        //public ContactsController()
+        //{
+        //    _repository = new ContactRepository();
+        //}
 
         public ContactsController(IRepository<Contact, Guid> repository)
         {
