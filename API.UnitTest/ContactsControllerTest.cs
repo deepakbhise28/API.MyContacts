@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyContact.DAL;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading;
@@ -57,6 +59,7 @@ namespace API.UnitTest
         Guid id = Guid.NewGuid();
 
         [TestMethod]
+        [Priority(0)]
         public async Task AddContact()
         {
             var result = await Instance().AddContact(new Contact { Email = "deepak@gmail.com", FirstName = "deepak", LastName = "bhise", PhoneNumber = "9994357416", Status = true });
@@ -72,15 +75,27 @@ namespace API.UnitTest
         }
 
         [TestMethod]
+        [Priority(1)]
         public void GetContacts()
         {
             var result = Instance().GetContacts().Result;
             Assert.IsNotNull(result);
             var response = result.ExecuteAsync(CancellationToken.None).Result;
             Assert.IsTrue(response.IsSuccessStatusCode);
+
+            if (response != null)
+            {
+                var addedContact = JsonConvert.DeserializeObject<List<Contact>>(response.Content.ReadAsStringAsync().Result);
+                if (addedContact != null && addedContact.Count > 0)
+                {
+                    id = addedContact.FirstOrDefault().Id;
+                }
+            }
+
         }
 
         [TestMethod]
+        [Priority(2)]
         public void GetContactsWithID()
         {
             var result = Instance().GetContact(id).Result;
@@ -90,6 +105,7 @@ namespace API.UnitTest
         }
 
         [TestMethod]
+        [Priority(3)]
         public void UpdateContact()
         {
             var result = Instance().UpdateContact(id, new Contact { Email = "deepak@gmail.com", FirstName = "deepak", LastName = "bhise", PhoneNumber = "88888888888", Status = true }).Result;
@@ -99,6 +115,7 @@ namespace API.UnitTest
         }
 
         [TestMethod]
+        [Priority(4)]
         public void DeleteContact()
         {
             var result = Instance().DeleteContact(id).Result;

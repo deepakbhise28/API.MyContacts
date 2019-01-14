@@ -64,9 +64,10 @@ namespace MyContact.DAL
         /// <returns>boolean</returns>
         public async Task<bool> InsertAsync(string userId, Contact entity)
         {
+            entity.UserId = userId;
             context.Contacts.Add(entity);
-            await context.SaveChangesAsync();
-            return true;
+            var changes = await context.SaveChangesAsync();
+            return changes > 0 ? true : false;
         }
 
         /// <summary>
@@ -89,8 +90,8 @@ namespace MyContact.DAL
                 record.PhoneNumber = entity.PhoneNumber;
                 record.Status = entity.Status;
                 record.Email = entity.Email;
-                int savedRec = await context.SaveChangesAsync();
-                return true;
+                int changes = await context.SaveChangesAsync();
+                return changes > 0 ? true : false;
             }          
         }
 
